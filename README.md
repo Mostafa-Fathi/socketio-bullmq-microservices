@@ -1,15 +1,15 @@
-### **\ud83d\udccc socketio-bullmq-microservices**  
+### **socketio-bullmq-microservices**  
 A **Node.js microservices demo** using **Socket.io** for real-time communication and **BullMQ** (Redis-based queue) for inter-service messaging.  
 
 ---
 
-## **\ud83d\udcda Overview**
+## **Overview**
 This project demonstrates how to:  
 ✅ Use **Socket.io** to manage real-time WebSocket connections at the API Gateway.  
 ✅ Use **BullMQ** (powered by Redis) as a queue to communicate between microservices.  
 ✅ Broadcast events from services to **connected clients** via WebSockets.  
 
-### **\ud83d\udee0\ufe0f Technologies Used**
+### **Technologies Used**
 - **Node.js** (Express.js)  
 - **Socket.io** (WebSockets)  
 - **BullMQ** (Queue system)  
@@ -18,7 +18,7 @@ This project demonstrates how to:
 
 ---
 
-## **\ud83d\udcc2 Folder Structure**
+## **Folder Structure**
 ```
 socketio-bullmq-microservices
 │── api-gateway/          # Handles WebSocket connections & listens to queue
@@ -28,13 +28,12 @@ socketio-bullmq-microservices
 │── service-b/            # Processes jobs from the BullMQ queue
 │   ├── serviceB.js
 │── README.md             # Project documentation
-│── docker-compose.yml    # Redis setup
 │── .env                  # Environment variables
 ```
 
 ---
 
-## **\u2728 How It Works**
+## **How It Works**
 1️⃣ **Clients connect to WebSocket** via the **API Gateway**  
 2️⃣ **Service A** adds messages to the **BullMQ queue**  
 3️⃣ **Service B** processes the queue and sends events to **API Gateway**  
@@ -42,7 +41,7 @@ socketio-bullmq-microservices
 
 ---
 
-## **\ud83d\udcaa Setup & Installation**
+## **Setup & Installation**
 ### **1️⃣ Clone the Repository**
 ```sh
 git clone https://github.com/YOUR_USERNAME/socketio-bullmq-microservices.git
@@ -84,7 +83,7 @@ node serviceB.js
 
 ---
 
-## **\ud83d\udee0\ufe0f Testing the System**
+## **Testing the System**
 1️⃣ Open the **API Gateway WebSocket** in a browser using:  
    ```
    ws://localhost:5000
@@ -96,7 +95,7 @@ node serviceB.js
 
 ---
 
-## **\ud83d\udcc4 Example API Calls**
+## **Example API Calls**
 ### **Service A: Add Job to Queue**
 ```sh
 curl -X POST http://localhost:8081/add-job -H "Content-Type: application/json" -d '{"message": "Hello from Service A!"}'
@@ -106,7 +105,7 @@ Service A will add the job, Service B will process it, and WebSocket clients wil
 
 ---
 
-## **\ud83d\udcdc Environment Variables (`.env`)**
+## **Environment Variables (`.env`)**
 Create a `.env` file in each service with:
 ```ini
 REDIS_HOST=127.0.0.1
@@ -115,7 +114,7 @@ REDIS_PORT=6379
 
 ---
 
-## **\ud83d\udee0 Troubleshooting**
+## **Troubleshooting**
 - **Redis connection issues?**  
   - Ensure Redis is running: `docker ps`  
   - Try: `docker restart redis`  
