@@ -4,7 +4,7 @@ require("dotenv").config();
 
 const redisConnection = new Redis({
     host: "127.0.0.1", // Ensure you are using the correct host
-    port: 6378,
+    port: 6379,
     maxRetriesPerRequest: null, // Disable retries to avoid connection errors
     enableReadyCheck: false, // Sometimes needed for Redis running in Docker
 });
