@@ -1,22 +1,29 @@
-const { Queue } = require("bullmq");
+const { Worker, Queue } = require("bullmq");
 const Redis = require("ioredis");
-require("dotenv").config();
+
 const redisConnection = new Redis({
     host: "127.0.0.1", // Ensure you are using the correct host
     port: 6378,
     maxRetriesPerRequest: null, // Disable retries to avoid connection errors
     enableReadyCheck: false, // Sometimes needed for Redis running in Docker
 });
+const locationQueue = new Queue("notifications", { connection: redisConnection });
 
-const notificationQueue = new Queue("notifications", { connection: redisConnection });
+new Worker(
+    "locationQueue",
+    async (job) => {
+        const { driverId, latitude } = job.data;
 
-async function sendNotification() {
-    const job = await notificationQueue.add("newEvent", {
-        message: `Event from Service A at ${new Date().toISOString()}`
-    });
+        if (latitude.startsWith("3")) {
+            console.log(`Service A processing update for Driver ${driverId}`);
 
-    console.log(`Job added: ${job.id}`);
-}
+            await locationQueue.add("notification", {
+                driverId,
+                message: `Service A processed your location update! Lat: ${latitude}`
+            });
+        }
+    },
+    { connection: redisConnection }
+);
 
-// Simulate event every 5 seconds
-setInterval(sendNotification, 5000);
+console.log("Service A running...");

@@ -1,6 +1,5 @@
 const { Worker, Queue } = require("bullmq");
 const Redis = require("ioredis");
-require("dotenv").config();
 
 const redisConnection = new Redis({
     host: "127.0.0.1", // Ensure you are using the correct host
@@ -8,17 +7,23 @@ const redisConnection = new Redis({
     maxRetriesPerRequest: null, // Disable retries to avoid connection errors
     enableReadyCheck: false, // Sometimes needed for Redis running in Docker
 });
-const notificationQueue = new Queue("notifications", { connection: redisConnection });
+const locationQueue = new Queue("notifications", { connection: redisConnection });
 
-new Worker("notifications", async (job) => {
-    console.log(`Processing job: ${job.id} - ${job.data.message}`);
+new Worker(
+    "locationQueue",
+    async (job) => {
+        const { driverId, longitude } = job.data;
 
-    // Simulate processing delay
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+        if (longitude.endsWith("5")) {
+            console.log(`Service B processing update for Driver ${driverId}`);
 
-    // Send processed message back to Gateway via queue
-    await notificationQueue.add("processedEvent", {
-        message: `Processed: ${job.data.message}`
-    });
+            await locationQueue.add("notification", {
+                driverId,
+                message: `Service B processed your location update! Long: ${longitude}`
+            });
+        }
+    },
+    { connection: redisConnection }
+);
 
-}, { connection: redisConnection });
+console.log("Service B running...");
