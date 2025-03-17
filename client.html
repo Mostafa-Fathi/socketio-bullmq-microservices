@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+</head>
+
+<body>
+    <h1>WebSocket Client</h1>
+    <div id="messages"></div>
+
+    <script>
+        const socket = io("http://localhost:5000");
+
+        socket.on("update", (data) => {
+            const messageDiv = document.getElementById("messages");
+            const newMessage = document.createElement("p");
+            newMessage.textContent = `🔔 ${data.message}`;
+            messageDiv.appendChild(newMessage);
+        });
+    </script>
+</body>
+
+</html>
