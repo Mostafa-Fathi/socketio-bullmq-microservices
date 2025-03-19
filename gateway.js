@@ -10,8 +10,8 @@ const io = new Server(server, { cors: { origin: "*" } });
 
 // Redis connection
 const redisConnection = new Redis({
-    host: "127.0.0.1", // Ensure you are using the correct host
-    port: 6378,
+    host: "34.134.51.131", // Ensure you are using the correct host
+    port: 32768,
     maxRetriesPerRequest: null, // Disable retries to avoid connection errors
     enableReadyCheck: false, // Sometimes needed for Redis running in Docker
 });
